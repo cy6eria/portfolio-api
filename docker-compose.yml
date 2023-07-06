@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  api:
+    depends_on:
+      - postgres
+    build:
+      dockerfile: Dockerfile
+      context: ./app
+      target: dev
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+    ports:
+      - $NESTJS_APP_LOCAL_PORT:$NESTJS_APP_DOCKER_PORT
+    volumes:
+      - ./app:/app
+    command: npm run start:dev
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - '5432:5432'
+    volumes:
+      - docker-nest-postgres:/var/lib/postgresql/data
+volumes:
+  docker-nest-postgres:

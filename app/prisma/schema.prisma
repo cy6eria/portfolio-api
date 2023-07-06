@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Portfolio {
+  id        String   @id @default(uuid())
+  name      String   @db.VarChar(100)
+  userId    String
+  published Boolean? @default(false)
+  createdAt DateTime @default(now())
+  wallets   Wallet[]
+}
+
+model Wallet {
+  id           String     @id @default(uuid())
+  blockchain   Blockchain @relation(fields: [blockchainId], references: [id])
+  blockchainId String
+  address      String     @db.VarChar(100)
+  portfolio    Portfolio  @relation(fields: [portfolioId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  portfolioId  String
+  createdAt    DateTime   @default(now())
+}
+
+model Blockchain {
+  id        String   @id @default(uuid())
+  name      String   @db.VarChar(100) @unique
+  createdAt DateTime @default(now())
+  wallet    Wallet[]
+}

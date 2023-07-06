@@ -1,0 +1,14 @@
+{
+    "name": "portfolio-api",
+    "version": "1.0.0",
+    "description": "Data service.",
+    "scripts": {
+        "start": "docker-compose up -d",
+        "stop": "docker-compose down -v",
+        "studio": "cd ./app && npm run db:studio",
+        "migrate": "cd ./app && npm run db:migrate",
+        "seed": "cd ./app && npm run db:seed"
+    },
+    "author": "cy6eria",
+    "license": "ISC"
+}
