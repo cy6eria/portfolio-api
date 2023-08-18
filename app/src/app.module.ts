@@ -6,6 +6,7 @@ import { BlockchainService } from './blockchain.service';
 import { PortfolioService } from './portfolio.service';
 import { PrismaService } from './prisma.service';
 import { UserService } from './user.service';
+import { EtherscanService } from './etherscan.service';
 
 @Module({
     imports: [ConfigModule.forRoot()],
@@ -15,6 +16,7 @@ import { UserService } from './user.service';
         PrismaService,
         UserService,
         BlockchainService,
+        EtherscanService,
     ],
 })
 export class AppModule {}

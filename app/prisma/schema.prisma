@@ -27,6 +27,7 @@ model Wallet {
   address      String     @db.VarChar(100)
   portfolio    Portfolio  @relation(fields: [portfolioId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   portfolioId  String
+  transactions Transaction[]
   createdAt    DateTime   @default(now())
 }
 
@@ -35,4 +36,15 @@ model Blockchain {
   name      String   @db.VarChar(100) @unique
   createdAt DateTime @default(now())
   wallet    Wallet[]
+}
+
+model Transaction {
+  id            String      @id @default(uuid())
+  wallet        Wallet      @relation(fields: [walletId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  walletId      String
+  from          String
+  to            String
+  value         BigInt      
+  hash          String
+  timestamp     DateTime
 }

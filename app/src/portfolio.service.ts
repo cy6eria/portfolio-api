@@ -18,7 +18,18 @@ export class PortfolioService {
                                 id: wallet.blockchainId,
                             },
                         },
+                        transactions: {
+                            create: wallet.transactions,
+                        },
                     })),
+                },
+            },
+            include: {
+                wallets: {
+                    include: {
+                        blockchain: true,
+                        transactions: true,
+                    },
                 },
             },
         });
